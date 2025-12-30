@@ -14,15 +14,19 @@ pipeline {
                 docker {
                     image 'amazon/aws-cli'
                     args "--entrypoint=''"
-                    aws s3 ls
                 }
             }
+            environment {
+                AWS_S3_BUCKET = 'your-aws-bucket-name'
+            }
             steps {
-                withCredentials([usernamePassword(credentialsId: 'my-aws', passwordVariable: 'AWS_SECRET_ACCESS_KEY', usernameVariable: 'AWS_ACCESS_KEY_ID')]) {   // some block               }
-                sh '''
-                    aws --version
-                    aws s3 ls
-                '''
+                withCredentials([usernamePassword(credentialsId: 'my-aws', passwordVariable: 'AWS_SECRET_ACCESS_KEY', usernameVariable: 'AWS_ACCESS_KEY_ID')]) {
+                    sh '''
+                        aws --version
+                        echo "Hello S3!" > index.html
+                        aws s3 cp index.html s3://learn-jenkins-20251230/index.html
+                    '''
+                }
             }
         }
 
