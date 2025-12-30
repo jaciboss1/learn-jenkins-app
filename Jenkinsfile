@@ -1,3 +1,5 @@
+
+
 pipeline {
     agent any
 
@@ -8,12 +10,6 @@ pipeline {
     }
 
     stages {
-
-        stage('Docker') {
-            steps {
-                sh 'docker build -t my-playwright .'
-            }
-        }
 
         stage('Build') {
             agent {
@@ -123,7 +119,7 @@ pipeline {
             environment {
                 CI_ENVIRONMENT_URL = 'YOUR NETLIFY SITE URL'
             }
-
+            
             steps {
                 sh '''
                     node --version
