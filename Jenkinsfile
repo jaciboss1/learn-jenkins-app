@@ -5,7 +5,7 @@ pipeline {
         // NETLIFY_SITE_ID = '2d69a948-1679-4cb6-96d3-27165d47c4e1'
         // NETLIFY_AUTH_TOKEN = credentials('netlify-token')
         REACT_APP_VERSION = "1.0.$BUILD_ID"
-        AWS_DEFAULT_REGION = 'North Virginia'
+        AWS_DEFAULT_REGION = 'us-east-1'
     }
 
     stages {
@@ -25,7 +25,6 @@ pipeline {
                 withCredentials([usernamePassword(credentialsId: 'my-aws', passwordVariable: 'AWS_SECRET_ACCESS_KEY', usernameVariable: 'AWS_ACCESS_KEY_ID')]) {
                     sh '''
                         aws --version
-                        #aws s3 sync build s3://$AWS_S3_BUCKET
                         aws ecs register-task-definition --cli-input-json file://aws/task-definition-prod.json
                     '''
                 }
